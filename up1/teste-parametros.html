@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste UP12 - Parâmetros URL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .param-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #ee4d2d;
+        }
+        .value {
+            font-weight: bold;
+            color: #ee4d2d;
+        }
+        .link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #ee4d2d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .link:hover {
+            background: #d5331a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teste - Parâmetros URL para UP12</h1>
+        <p>Esta página demonstra como os parâmetros são passados através das páginas do funil.</p>
+        
+        <h3>Parâmetros Atuais na URL:</h3>
+        <div id="params-container">
+            <!-- Os parâmetros serão mostrados aqui -->
+        </div>
+        
+        <h3>Links de Teste:</h3>
+        <a href="index.html?nome=João Silva&cpf=12345678901&valor_emprestimo=1001-3000" class="link">
+            Teste com R$ 2.978 (1001-3000)
+        </a>
+        <br>
+        <a href="index.html?nome=Maria Santos&cpf=98765432100&valor_emprestimo=acima5000" class="link">
+            Teste com R$ 9.978 (acima5000)
+        </a>
+        <br>
+        <a href="index.html?nome=Pedro Costa&cpf=11122233344&valor_emprestimo=500-1000" class="link">
+            Teste com R$ 978 (500-1000)
+        </a>
+        <br>
+        <a href="index.html" class="link">
+            Teste sem parâmetros (valor padrão: R$ 9.782,23)
+        </a>
+    </div>
+
+    <script>
+        // Mostrar parâmetros atuais
+        const params = new URLSearchParams(window.location.search);
+        const container = document.getElementById('params-container');
+        
+        if (params.toString()) {
+            for (const [key, value] of params) {
+                const div = document.createElement('div');
+                div.className = 'param-item';
+                div.innerHTML = `<strong>${key}:</strong> <span class="value">${value}</span>`;
+                container.appendChild(div);
+            }
+        } else {
+            container.innerHTML = '<div class="param-item">Nenhum parâmetro encontrado na URL</div>';
+        }
+    </script>
+</body>
+</html>
